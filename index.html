@@ -191,11 +191,6 @@ html,body{margin:0;padding:0}
 body{
   font-family:var(--font-sans);
   background-color:var(--bg);
-  background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 24px 24px, 24px 24px;
-  background-position: -1px -1px, -1px -1px;
   color:var(--ink); font-size:var(--fs-body); line-height:var(--lh-body);
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
@@ -659,7 +654,7 @@ details.adv .adv-body{padding-top:14px}
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   box-shadow:var(--sh-sm), inset 0 1px 0 rgba(255,255,255,.7);margin-bottom:var(--sp-4);
   transition:box-shadow var(--dur) var(--ease),transform var(--dur) var(--ease),border-color var(--dur) var(--ease)}
-.card:hover{box-shadow:var(--sh-md), inset 0 1px 0 rgba(255,255,255,.7);border-color:var(--accent-line);transform:translateY(-2px)}
+
 .card-hd{background:var(--card-2)}
 .card-bd{padding:var(--sp-5)}
 .today{background:var(--card)}
@@ -702,13 +697,73 @@ tbody tr:last-child td{border-bottom:none}
 
 /* 深色模式补白表面 */
 [data-theme="dark"] .card{box-shadow:var(--sh-sm), inset 0 1px 0 rgba(255,255,255,.04)}
-[data-theme="dark"] .card:hover{box-shadow:var(--sh-md), inset 0 1px 0 rgba(255,255,255,.04)}
+
 [data-theme="dark"] .inp, [data-theme="dark"] select.inp, [data-theme="dark"] textarea.inp{background:var(--card-2);border-color:var(--line-strong)}
 [data-theme="dark"] .chip{background:var(--card-2);color:var(--ink-3);border-color:var(--line)}
 [data-theme="dark"] .nav-item:hover{background:var(--chrome-hover)}
 [data-theme="dark"] .btn-danger{background:var(--card-2);border-color:var(--danger-line);color:var(--danger)}
 [data-theme="dark"] .btn-ok{color:#04231a}
 [data-theme="dark"] .btn-primary{color:var(--accent-contrast)}
+
+/* 全站表面、状态与窄屏布局 */
+:root{
+  --bg:#f3f6fa;
+  --ink-4:#546478;
+  --chrome-ink-3:#546478;
+  --signal:#087785;
+  --danger:#b42331;
+  --warn:#875500;
+  --ok:#16704f;
+  --r:12px;
+  --sh-sm:0 1px 3px rgba(16,24,40,.07);
+}
+[data-theme="dark"]{color-scheme:dark;--ink-4:#a6b4ca;--chrome-ink-3:#a6b4ca}
+html{scroll-padding-top:72px}
+.skip-link{position:fixed;top:8px;left:8px;z-index:301;transform:translateY(-160%);padding:8px 14px;background:var(--card);border-radius:var(--r-xs)}
+.skip-link:focus{transform:none}
+.topbar::after{display:none}
+.topbar-search:focus-within,.nav-search:focus-within,.gs-panel,.tabbar{background:var(--card)}
+.nav-search .inp{border:0;background:transparent;box-shadow:none}
+.nav-pinned:empty{display:none}
+button.nav-group{width:100%;min-height:38px;text-align:left}
+.nav-item.on{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+.nav-item.on .ic{color:inherit}
+.nav-pin:focus-visible{opacity:1}
+.nav-foot,.brand-sub{display:none}
+.toolbar,.card-hd,th{background:var(--card-2)}
+.card:hover{transform:none;box-shadow:var(--sh-sm)}
+.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.form-row,.toolbar>*{min-width:0;max-width:100%}
+.main{overflow-wrap:anywhere}
+.modal-bd{min-height:0;overscroll-behavior:contain}
+.modal{max-height:calc(100dvh - 24px)}
+.chip.on,[data-theme="dark"] .chip.on{color:var(--accent-contrast);background:var(--accent);border-color:var(--accent)}
+.banner-warn{color:var(--warn)}
+.banner-info{color:var(--accent)}
+[data-theme="dark"] .tab-dot,[data-theme="dark"] .nav-badge:not(.gray){color:var(--accent-contrast)}
+@media (min-width:901px){#btn-menu{display:none}}
+@media (max-width:900px){
+  .sidenav:not(.open){visibility:hidden}
+  .grid2,.grid3{grid-template-columns:minmax(0,1fr)}
+  .toolbar,.card-hd,.card-bd,.modal-bd{padding-inline:14px}
+  .btn-sm,.chip,.tab,.topbar .btn{min-height:44px}
+  .inp,select.inp,textarea.inp,#global-search{font-size:16px}
+  .form-row .inp{min-height:44px}
+  .banner{flex-wrap:wrap}
+}
+@media (max-width:620px){
+  html{scroll-padding-top:116px;scroll-padding-bottom:68px}
+  .topbar{height:auto;flex-wrap:wrap;gap:6px;padding:6px 8px 8px}
+  .topbar-acts{gap:3px}
+  .topbar .btn{min-width:36px;padding-inline:7px}
+  .brand{gap:6px;font-size:14px}
+  .brand-mark{width:26px;height:26px}
+  .topbar-search-wrap{display:block;order:1;flex:0 0 100%}
+  .topbar-search{height:44px}
+}
+@media (max-width:360px){.brand-mark{display:none}}
+@media print{.skip-link{display:none}}
 
 /* 尊重 reduce-motion */
 @media (prefers-reduced-motion: reduce){
@@ -717,6 +772,7 @@ tbody tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要内容</a>
 
 <!-- ========== SVG 图标库 ========== -->
 <svg style="display:none" aria-hidden="true">
@@ -765,7 +821,7 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- ========== 顶栏 ========== -->
 <header class="topbar">
-  <button class="btn btn-ghost btn-icon" id="btn-menu" title="菜单"><svg class="ic"><use href="#i-menu"/></svg></button>
+  <button class="btn btn-ghost btn-icon" id="btn-menu" title="模块菜单" aria-controls="sidenav" aria-expanded="false"><svg class="ic"><use href="#i-menu"/></svg></button>
   <div class="brand">
     <span class="brand-mark"><svg class="ic ic-lg"><use href="#i-logo"/></svg></span>
     <span>辅导员工作台</span>
@@ -792,36 +848,36 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- ========== 主体 ========== -->
 <div class="layout">
-  <nav class="sidenav" id="sidenav">
-    <div class="nav-search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" id="nav-search" placeholder="搜索模块"></div>
+  <nav class="sidenav" id="sidenav" aria-label="全部模块">
+    <div class="nav-search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" id="nav-search" type="search" aria-label="搜索模块" placeholder="搜索模块"></div>
     <div class="nav-pinned" id="nav-pinned"></div>
-    <div class="nav-group" data-group="工作台">工作台<svg class="nav-fold-ic" data-fold="工作台"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="工作台" data-fold="工作台" aria-expanded="true">工作台<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item on" data-view="home"><svg class="ic"><use href="#i-home"/></svg>今日概览</button>
     <button class="nav-item" data-view="tasks"><svg class="ic"><use href="#i-task"/></svg>工作任务<span class="nav-badge hide" id="nb-tasks">0</span></button>
     <button class="nav-item" data-view="students"><svg class="ic"><use href="#i-users"/></svg>学生台账<span class="nav-badge gray" id="nb-students">0</span></button>
     <button class="nav-item" data-view="talks"><svg class="ic"><use href="#i-talk"/></svg>谈心谈话<span class="nav-badge hide" id="nb-talks">0</span></button>
     <button class="nav-item" data-view="report"><svg class="ic"><use href="#i-chart"/></svg>工作留痕</button>
-    <div class="nav-group" data-group="专项管理">专项管理<svg class="nav-fold-ic" data-fold="专项管理"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="专项管理" data-fold="专项管理" aria-expanded="true">专项管理<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item" data-view="stay"><svg class="ic"><use href="#i-bed"/></svg>校外住宿</button>
     <button class="nav-item" data-view="leave"><svg class="ic"><use href="#i-plane"/></svg>假期去向</button>
     <button class="nav-item" data-view="honor"><svg class="ic"><use href="#i-trophy"/></svg>评优榜样</button>
     <button class="nav-item" data-view="pleave"><svg class="ic"><use href="#i-clock"/></svg>请销假</button>
     <button class="nav-item" data-view="attend"><svg class="ic"><use href="#i-check"/></svg>考勤台账</button>
     <button class="nav-item" data-view="node"><svg class="ic"><use href="#i-flag"/></svg>工作节点</button>
-    <div class="nav-group" data-group="学业与资助">学业与资助<svg class="nav-fold-ic" data-fold="学业与资助"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="学业与资助" data-fold="学业与资助" aria-expanded="true">学业与资助<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item" data-view="warn"><svg class="ic"><use href="#i-alert"/></svg>学业预警</button>
     <button class="nav-item" data-view="help"><svg class="ic"><use href="#i-heart"/></svg>学业帮扶</button>
     <button class="nav-item" data-view="grant"><svg class="ic"><use href="#i-shield"/></svg>奖助勤补</button>
-    <div class="nav-group" data-group="重点关怀与就业">重点关怀与就业<svg class="nav-fold-ic" data-fold="重点关怀与就业"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="重点关怀与就业" data-fold="重点关怀与就业" aria-expanded="true">重点关怀与就业<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item" data-view="focus"><svg class="ic"><use href="#i-lock"/></svg>重点学生档案</button>
     <button class="nav-item" data-view="psych"><svg class="ic"><use href="#i-mind"/></svg>心理摸排</button>
     <button class="nav-item" data-view="graduate"><svg class="ic"><use href="#i-grad"/></svg>毕业生就业</button>
-    <div class="nav-group" data-group="资料与平台">资料与平台<svg class="nav-fold-ic" data-fold="资料与平台"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="资料与平台" data-fold="资料与平台" aria-expanded="true">资料与平台<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item" data-view="policy"><svg class="ic"><use href="#i-book"/></svg>政策智库</button>
     <button class="nav-item" data-view="material"><svg class="ic"><use href="#i-link"/></svg>素材收藏</button>
     <button class="nav-item" data-view="comp"><svg class="ic"><use href="#i-trophy"/></svg>科创竞赛</button>
     <button class="nav-item" data-view="tpl"><svg class="ic"><use href="#i-copy"/></svg>模板库</button>
-    <div class="nav-group" data-group="数据">数据<svg class="nav-fold-ic" data-fold="数据"><use href="#i-chev"/></svg></div>
+    <button type="button" class="nav-group" data-group="数据" data-fold="数据" aria-expanded="true">数据<svg class="nav-fold-ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
     <button class="nav-item" data-view="bridge"><svg class="ic"><use href="#i-link"/></svg>平台联动</button>
     <div class="nav-foot">
       <div style="display:flex;align-items:center;justify-content:center;gap:8px">
@@ -832,11 +888,11 @@ tbody tr:last-child td{border-bottom:none}
     </div>
   </nav>
 
-  <main class="main" id="main"></main>
+  <main class="main" id="main" tabindex="-1"></main>
 </div>
 
 <!-- ========== 底部 Tab（移动端） ========== -->
-<nav class="tabbar">
+<nav class="tabbar" aria-label="快捷导航">
   <button class="tab on" data-view="home"><svg class="ic"><use href="#i-home"/></svg>今日</button>
   <button class="tab" data-view="tasks"><svg class="ic"><use href="#i-task"/></svg>任务<span class="tab-dot hide" id="tb-tasks">0</span></button>
   <button class="tab" data-view="students"><svg class="ic"><use href="#i-users"/></svg>学生</button>
@@ -845,7 +901,7 @@ tbody tr:last-child td{border-bottom:none}
 </nav>
 
 <div id="modal-root"></div>
-<div id="toast-root"></div>
+<div id="toast-root" role="status" aria-live="polite"></div>
 <input type="file" id="file-json" accept=".json,application/json" style="display:none">
 <input type="file" id="file-csv" accept=".csv,.txt,.xls,.xlsx" style="display:none">
 <input type="file" id="file-gen" accept=".csv,.txt" style="display:none">
@@ -1110,10 +1166,11 @@ const ui = {
     setTimeout(() => { el.style.transition = '.25s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 260); }, ms || 2400);
   },
   modal(opts) {
+    const previousFocus = document.activeElement;
     const mask = document.createElement('div');
     mask.className = 'mask';
     mask.innerHTML = `
-      <div class="modal ${opts.size || ''}" role="dialog" aria-modal="true">
+      <div class="modal ${opts.size || ''}" role="dialog" aria-modal="true" tabindex="-1" aria-label="${esc(opts.title || '对话框')}">
         <div class="modal-hd">
           <h3>${esc(opts.title || '')}</h3>
           <button class="btn btn-ghost btn-icon" data-close aria-label="关闭"><svg class="ic"><use href="#i-x"/></svg></button>
@@ -1122,14 +1179,31 @@ const ui = {
         ${opts.footer === null ? '' : `<div class="modal-ft">${opts.footer || '<button class="btn" data-close>关闭</button>'}</div>`}
       </div>`;
     $('#modal-root').appendChild(mask);
-    const close = () => { mask.remove(); document.body.style.overflow = ''; };
+    const dialog = mask.firstElementChild;
+    const close = () => {
+      if (!mask.isConnected) return;
+      mask.remove();
+      if (!$('#modal-root').children.length) document.body.style.overflow = '';
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll:true });
+      else ($('#modal-root .mask:last-child .modal') || $('#main')).focus({ preventScroll:true });
+    };
     document.body.style.overflow = 'hidden';
     mask.addEventListener('click', e => {
       if (e.target === mask && !opts.sticky) close();
       if (e.target.closest('[data-close]')) close();
     });
-    const onKey = e => { if (e.key === 'Escape' && !opts.sticky) { close(); document.removeEventListener('keydown', onKey); } };
-    document.addEventListener('keydown', onKey);
+    mask.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !opts.sticky) { e.stopPropagation(); close(); return; }
+      if (e.key !== 'Tab') return;
+      const controls = $$('button, input, select, textarea, a[href], [tabindex]', dialog)
+        .filter(el => el.tabIndex >= 0 && !el.matches(':disabled') && el.getClientRects().length);
+      const first = controls[0], last = controls[controls.length - 1];
+      if (!first || (e.shiftKey ? document.activeElement === first : document.activeElement === last)) {
+        e.preventDefault();
+        (e.shiftKey ? last || dialog : first || dialog).focus();
+      }
+    });
+    dialog.focus({ preventScroll:true });
     if (opts.onOpen) opts.onOpen(mask, close);
     return close;
   },
@@ -1146,7 +1220,8 @@ const ui = {
   },
   form(opts) {
     const fields = opts.fields, data = Object.assign({}, opts.data || {});
-    const html = `<div class="grid2">` + fields.map(f => {
+    const html = `<div class="grid2">` + fields.map((f, index) => {
+      const fieldId = `cwb-field-${$('#modal-root').children.length}-${index}`;
       const v = data[f.key] == null ? (f.def == null ? '' : f.def) : data[f.key];
       const span = (f.span === 2 || f.type === 'textarea' || f.type === 'chips') ? ' span2' : '';
       let ctl = '';
@@ -1172,9 +1247,16 @@ const ui = {
         ctl = `<input class="inp" type="${f.type || 'text'}" data-k="${f.key}" value="${esc(v)}"
           placeholder="${esc(f.ph || '')}"${f.list ? ` list="${f.list}"` : ''}${f.type === 'number' ? ' inputmode="numeric"' : ''}>`;
       }
+      const isGroup = f.type === 'chips';
+      const label = isGroup ? 'span' : 'label';
+      const labelTarget = isGroup ? `id="${fieldId}-label"` : `for="${fieldId}"`;
+      const controlAttrs = isGroup
+        ? `role="group" aria-labelledby="${fieldId}-label"`
+        : `id="${fieldId}"${f.required ? ' aria-required="true"' : ''}`;
+      ctl = ctl.replace(' class=', ` ${controlAttrs}${f.hint ? ` aria-describedby="${fieldId}-hint"` : ''} class=`);
       return `<div class="form-row${span}">
-        <label class="lab" style="display:block;margin-bottom:5px">${esc(f.label)}${f.required ? ' <span style="color:var(--danger)">*</span>' : ''}</label>
-        ${ctl}${f.hint ? `<div class="hint">${esc(f.hint)}</div>` : ''}</div>`;
+        <${label} ${labelTarget} class="lab" style="display:block;margin-bottom:5px">${esc(f.label)}${f.required ? ' <span style="color:var(--danger)">*</span>' : ''}</${label}>
+        ${ctl}${f.hint ? `<div class="hint" id="${fieldId}-hint">${esc(f.hint)}</div>` : ''}</div>`;
     }).join('') + `</div>` + (opts.extra || '');
 
     const close = ui.modal({
@@ -3023,9 +3105,9 @@ function viewPleave() {
       <button class="btn btn-primary btn-sm" data-act="pleave-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>登记请假</button>
     </div>
     <div class="kpis">
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>待审批</div><div class="kpi-v" data-num="${pending}">0</div></div>
-      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>在假中</div><div class="kpi-v" data-num="${active}">0</div></div>
-      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>逾期未销假</div><div class="kpi-v" data-num="${overdue}">0</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>待审批</div><div class="kpi-v" data-num="${pending}">${pending}</div></div>
+      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>在假中</div><div class="kpi-v" data-num="${active}">${active}</div></div>
+      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>逾期未销假</div><div class="kpi-v" data-num="${overdue}">${overdue}</div></div>
     </div>
     <div class="toolbar">
       <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg>
@@ -3097,9 +3179,9 @@ function viewAttend() {
       <button class="btn btn-primary btn-sm" data-act="attend-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>登记考勤</button>
     </div>
     <div class="kpis">
-      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>旷课人次</div><div class="kpi-v" data-num="${kuang}">0</div></div>
-      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>迟到人次</div><div class="kpi-v" data-num="${late}">0</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>记录总数</div><div class="kpi-v" data-num="${list.length}">0</div></div>
+      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>旷课人次</div><div class="kpi-v" data-num="${kuang}">${kuang}</div></div>
+      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>迟到人次</div><div class="kpi-v" data-num="${late}">${late}</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>记录总数</div><div class="kpi-v" data-num="${list.length}">${list.length}</div></div>
     </div>
     ${clsItems.length?`<div class="card-bd" style="padding:6px 18px 0">${hBarChart(clsItems)}</div>`:''}
     <div class="toolbar">
@@ -3157,9 +3239,9 @@ function viewNode() {
       <button class="btn btn-primary btn-sm" data-act="node-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增节点</button>
     </div>
     <div class="kpis">
-      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>已逾期</div><div class="kpi-v" data-num="${overdue}">0</div></div>
-      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>临近提醒</div><div class="kpi-v" data-num="${soon}">0</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-flag"/></svg>节点总数</div><div class="kpi-v" data-num="${list.length}">0</div></div>
+      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>已逾期</div><div class="kpi-v" data-num="${overdue}">${overdue}</div></div>
+      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>临近提醒</div><div class="kpi-v" data-num="${soon}">${soon}</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-flag"/></svg>节点总数</div><div class="kpi-v" data-num="${list.length}">${list.length}</div></div>
     </div>
     <div class="toolbar">
       <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg>
@@ -3250,9 +3332,9 @@ function viewWarn() {
       <button class="btn btn-primary btn-sm" data-act="warn-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增预警</button>
     </div>
     <div class="kpis">
-      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>红色未解除</div><div class="kpi-v" data-num="${red}">0</div></div>
-      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>橙色未解除</div><div class="kpi-v" data-num="${orange}">0</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-book"/></svg>黄色未解除</div><div class="kpi-v" data-num="${yellow}">0</div></div>
+      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>红色未解除</div><div class="kpi-v" data-num="${red}">${red}</div></div>
+      <div class="kpi warn"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-clock"/></svg>橙色未解除</div><div class="kpi-v" data-num="${orange}">${orange}</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-book"/></svg>黄色未解除</div><div class="kpi-v" data-num="${yellow}">${yellow}</div></div>
     </div>
     <div class="warn-donut-wrap" style="padding:14px 0 4px">
       <div class="sub-hd"><svg class="ic ic-sm" style="color:var(--accent)"><use href="#i-chart"/></svg>预警等级分布（未解除）</div>
@@ -3316,8 +3398,8 @@ function viewHelp() {
       <button class="btn btn-primary btn-sm" data-act="help-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增帮扶</button>
     </div>
     <div class="kpis">
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-heart"/></svg>帮扶中</div><div class="kpi-v" data-num="${tracking}">0</div></div>
-      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>已结束</div><div class="kpi-v" data-num="${list.length-tracking}">0</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-heart"/></svg>帮扶中</div><div class="kpi-v" data-num="${tracking}">${tracking}</div></div>
+      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>已结束</div><div class="kpi-v" data-num="${list.length-tracking}">${list.length-tracking}</div></div>
     </div>
     <div class="toolbar">
       <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg>
@@ -3373,8 +3455,8 @@ function viewGrant() {
       <button class="btn btn-primary btn-sm" data-act="grant-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增记录</button>
     </div>
     <div class="kpis">
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-shield"/></svg>待发放</div><div class="kpi-v" data-num="${pending}">0</div></div>
-      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>发放总额</div><div class="kpi-v" data-num="${total}">0</div><div class="kpi-s">元</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-shield"/></svg>待发放</div><div class="kpi-v" data-num="${pending}">${pending}</div></div>
+      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>发放总额</div><div class="kpi-v" data-num="${total}">${total}</div><div class="kpi-s">元</div></div>
     </div>
     ${kindItems.length?`<div class="card-bd" style="padding:6px 18px 0">${hBarChart(kindItems)}</div>`:''}
     <div class="toolbar">
@@ -3463,9 +3545,9 @@ function viewFocus() {
       <button class="btn btn-primary btn-sm" data-act="focus-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增档案</button>
     </div>
     <div class="kpis">
-      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>一级·跟踪中</div><div class="kpi-v" data-num="${lvl1}">0</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-heart"/></svg>跟踪中</div><div class="kpi-v" data-num="${tracking}">0</div></div>
-      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>档案总数</div><div class="kpi-v" data-num="${list.length}">0</div></div>
+      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>一级·跟踪中</div><div class="kpi-v" data-num="${lvl1}">${lvl1}</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-heart"/></svg>跟踪中</div><div class="kpi-v" data-num="${tracking}">${tracking}</div></div>
+      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>档案总数</div><div class="kpi-v" data-num="${list.length}">${list.length}</div></div>
     </div>
     <div class="toolbar">
       <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg>
@@ -3526,9 +3608,9 @@ function viewPsych() {
       <button class="btn btn-primary btn-sm" data-act="psych-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增摸排</button>
     </div>
     <div class="kpis">
-      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>重度·未结案</div><div class="kpi-v" data-num="${severe}">0</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-mind"/></svg>跟踪中</div><div class="kpi-v" data-num="${tracking}">0</div></div>
-      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>摸排总数</div><div class="kpi-v" data-num="${list.length}">0</div></div>
+      <div class="kpi danger"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-alert"/></svg>重度·未结案</div><div class="kpi-v" data-num="${severe}">${severe}</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-mind"/></svg>跟踪中</div><div class="kpi-v" data-num="${tracking}">${tracking}</div></div>
+      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-users"/></svg>摸排总数</div><div class="kpi-v" data-num="${list.length}">${list.length}</div></div>
     </div>
     ${levelItems.some(i => i.value) ? `<div class="card-bd" style="padding:6px 18px 0"><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
       <div style="flex:0 0 140px">${donutChart(levelItems, list.length, '人次')}</div>
@@ -3594,9 +3676,9 @@ function viewGraduate() {
       <button class="btn btn-primary btn-sm" data-act="graduate-new"><svg class="ic ic-sm"><use href="#i-plus"/></svg>新增毕业生</button>
     </div>
     <div class="kpis">
-      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>就业率</div><div class="kpi-v" data-num="${rate}">0</div><div class="kpi-s">%</div></div>
-      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-grad"/></svg>升学/出国</div><div class="kpi-v" data-num="${upCount}">0</div></div>
-      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-shield"/></svg>公务员录用</div><div class="kpi-v" data-num="${civilCount}">0</div></div>
+      <div class="kpi ok"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-check"/></svg>就业率</div><div class="kpi-v" data-num="${rate}">${rate}</div><div class="kpi-s">%</div></div>
+      <div class="kpi brand"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-grad"/></svg>升学/出国</div><div class="kpi-v" data-num="${upCount}">${upCount}</div></div>
+      <div class="kpi"><div class="kpi-l"><svg class="ic ic-sm"><use href="#i-shield"/></svg>公务员录用</div><div class="kpi-v" data-num="${civilCount}">${civilCount}</div></div>
     </div>
     ${statusItems.some(i => i.value) ? `<div class="card-bd" style="padding:6px 18px 0">${hBarChart(statusItems)}</div>` : ''}
     <div class="toolbar">
@@ -3652,9 +3734,9 @@ function viewPolicy() {
     </div>
     <div class="card-bd">
       <div class="kpis">
-        <div class="kpi"><div class="kpi-l">政策条目</div><div class="kpi-v" data-num="${DB.policy.length}">0</div></div>
-        <div class="kpi brand"><div class="kpi-l">已收藏</div><div class="kpi-v" data-num="${star}">0</div></div>
-        <div class="kpi"><div class="kpi-l">覆盖分类</div><div class="kpi-v" data-num="${Object.keys(cats).length}">0</div></div>
+        <div class="kpi"><div class="kpi-l">政策条目</div><div class="kpi-v" data-num="${DB.policy.length}">${DB.policy.length}</div></div>
+        <div class="kpi brand"><div class="kpi-l">已收藏</div><div class="kpi-v" data-num="${star}">${star}</div></div>
+        <div class="kpi"><div class="kpi-l">覆盖分类</div><div class="kpi-v" data-num="${Object.keys(cats).length}">${Object.keys(cats).length}</div></div>
       </div>
       <div class="toolbar">
         <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" placeholder="搜索标题、发布单位、关键词" data-filter="policy.q" value="${esc(f.q)}"></div>
@@ -3702,8 +3784,8 @@ function viewMaterial() {
     </div>
     <div class="card-bd">
       <div class="kpis">
-        <div class="kpi"><div class="kpi-l">素材条目</div><div class="kpi-v" data-num="${DB.material.length}">0</div></div>
-        <div class="kpi brand"><div class="kpi-l">素材分类</div><div class="kpi-v" data-num="${Object.keys(cats).length}">0</div></div>
+        <div class="kpi"><div class="kpi-l">素材条目</div><div class="kpi-v" data-num="${DB.material.length}">${DB.material.length}</div></div>
+        <div class="kpi brand"><div class="kpi-l">素材分类</div><div class="kpi-v" data-num="${Object.keys(cats).length}">${Object.keys(cats).length}</div></div>
       </div>
       <div class="toolbar">
         <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" placeholder="搜索标题、来源、标签、内容" data-filter="material.q" value="${esc(f.q)}"></div>
@@ -3763,10 +3845,10 @@ function viewComp() {
     </div>
     <div class="card-bd">
       <div class="kpis">
-        <div class="kpi"><div class="kpi-l">在册赛事</div><div class="kpi-v" data-num="${DB.comp.length}">0</div></div>
-        <div class="kpi brand"><div class="kpi-l">覆盖类别</div><div class="kpi-v" data-num="${Object.keys(covered).length}">0</div></div>
-        <div class="kpi"><div class="kpi-l">已报名/获奖</div><div class="kpi-v" data-num="${registered}">0</div></div>
-        <div class="kpi warn"><div class="kpi-l">14天内待办</div><div class="kpi-v" data-num="${near}">0</div></div>
+        <div class="kpi"><div class="kpi-l">在册赛事</div><div class="kpi-v" data-num="${DB.comp.length}">${DB.comp.length}</div></div>
+        <div class="kpi brand"><div class="kpi-l">覆盖类别</div><div class="kpi-v" data-num="${Object.keys(covered).length}">${Object.keys(covered).length}</div></div>
+        <div class="kpi"><div class="kpi-l">已报名/获奖</div><div class="kpi-v" data-num="${registered}">${registered}</div></div>
+        <div class="kpi warn"><div class="kpi-l">14天内待办</div><div class="kpi-v" data-num="${near}">${near}</div></div>
       </div>
       <div class="toolbar">
         <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" placeholder="搜索赛事名称、主办单位、参赛学生" data-filter="comp.q" value="${esc(f.q)}"></div>
@@ -3816,10 +3898,10 @@ function viewTpl() {
     </div>
     <div class="card-bd">
       <div class="kpis">
-        <div class="kpi"><div class="kpi-l">模板总数</div><div class="kpi-v" data-num="${DB.tpl.length}">0</div></div>
-        <div class="kpi brand"><div class="kpi-l">通知类</div><div class="kpi-v" data-num="${cnt('通知')}">0</div></div>
-        <div class="kpi"><div class="kpi-l">流程类</div><div class="kpi-v" data-num="${cnt('流程')}">0</div></div>
-        <div class="kpi"><div class="kpi-l">表单类</div><div class="kpi-v" data-num="${cnt('表单')}">0</div></div>
+        <div class="kpi"><div class="kpi-l">模板总数</div><div class="kpi-v" data-num="${DB.tpl.length}">${DB.tpl.length}</div></div>
+        <div class="kpi brand"><div class="kpi-l">通知类</div><div class="kpi-v" data-num="${cnt('通知')}">${cnt('通知')}</div></div>
+        <div class="kpi"><div class="kpi-l">流程类</div><div class="kpi-v" data-num="${cnt('流程')}">${cnt('流程')}</div></div>
+        <div class="kpi"><div class="kpi-l">表单类</div><div class="kpi-v" data-num="${cnt('表单')}">${cnt('表单')}</div></div>
       </div>
       <div class="toolbar">
         <div class="search"><svg class="ic ic-sm"><use href="#i-search"/></svg><input class="inp" placeholder="搜索标题、适用场景、内容" data-filter="tpl.q" value="${esc(f.q)}"></div>
@@ -5185,38 +5267,20 @@ function render() {
   const fn = VIEWS[app.view] || (customModules[app.view] && customModules[app.view].render) || viewHome;
   const main = $('#main');
   main.innerHTML = fn();
-  $$('.nav-item').forEach(b => b.classList.toggle('on', b.dataset.view === app.view));
-  $$('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === app.view));
-  updateBadges();
-  animateIn();
-  hooks.emit('view:render', { view: app.view });
-}
-function animateIn() {
-  const main = $('#main');
-  const kids = $$('.card, .today, .banner', main);
-  kids.forEach((el, i) => {
-    el.classList.remove('anim-in');
-    void el.offsetWidth;
-    el.style.animationDelay = (i * 55) + 'ms';
-    el.classList.add('anim-in');
+  $$('.nav-item[data-view], .tab').forEach(button => {
+    const active = button.dataset.view === app.view;
+    button.classList.toggle('on', active);
+    if (active) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
   });
-  $$('.kpi-v[data-num]', main).forEach(el => countUp(el, parseInt(el.dataset.num, 10) || 0));
-}
-function countUp(el, target) {
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = target; return; }
-  const dur = 600, t0 = performance.now();
-  function step(now) {
-    const p = Math.min(1, (now - t0) / dur);
-    const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(target * eased);
-    if (p < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
+  updateBadges();
+  hooks.emit('view:render', { view: app.view });
 }
 function go(view) {
   app.view = view; render();
   closeDrawer();
-  try { window.scrollTo({ top:0, behavior:'smooth' }); } catch (e) {}
+  $('#main').focus({ preventScroll:true });
+  try { window.scrollTo(0, 0); } catch (e) {}
 }
 function updateBadges() {
   const todo = buildTodo();
@@ -5247,10 +5311,14 @@ function applyTheme(t, persist) {
 function closeDrawer() {
   const nav = $('#sidenav'); if (nav) nav.classList.remove('open');
   const sc = $('#scrim'); if (sc) sc.classList.remove('open');
+  $('#btn-menu').setAttribute('aria-expanded', 'false');
+  if (nav?.contains(document.activeElement) && $('#btn-menu').getClientRects().length) $('#btn-menu').focus();
 }
 function openDrawer() {
   $('#sidenav').classList.add('open');
   $('#scrim').classList.add('open');
+  $('#btn-menu').setAttribute('aria-expanded', 'true');
+  $('#nav-search').focus();
 }
 
 const ACTS = {
@@ -5713,7 +5781,10 @@ document.addEventListener('click', e => {
 $('#btn-export').onclick = exportJSON;
 $('#btn-import').onclick = () => $('#file-json').click();
 $('#btn-settings').onclick = openSettings;
-$('#btn-menu').onclick = openDrawer;
+$('#btn-menu').onclick = () => $('#sidenav').classList.contains('open') ? closeDrawer() : openDrawer();
+$('#sidenav').addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#sidenav').classList.contains('open')) closeDrawer();
+});
 $('#scrim').onclick = closeDrawer;
 $('#file-json').onchange = function () {
   const f = this.files[0]; if (!f) return;
@@ -5843,6 +5914,7 @@ function applyFold() {
     const name = grp.dataset.group;
     const collapsed = !!g[name];
     grp.classList.toggle('collapsed', collapsed);
+    grp.setAttribute('aria-expanded', String(!collapsed));
     let n = grp.nextElementSibling;
     while (n && !n.classList.contains('nav-group')) {
       if (n.classList.contains('nav-item')) n.style.display = collapsed ? 'none' : '';
@@ -5873,6 +5945,7 @@ function toggleFold(group) {
   DB.settings.navFold = DB.settings.navFold || {};
   DB.settings.navFold[group] = !DB.settings.navFold[group];
   save('settings'); applyFold();
+  $('#nav-search').dispatchEvent(new Event('input'));
 }
 function togglePin(view) {
   DB.settings.pinned = DB.settings.pinned || [];
@@ -5891,7 +5964,7 @@ function bindNavSearch() {
       let n = grp.nextElementSibling, any = false;
       while (n && !n.classList.contains('nav-group')) {
         if (n.classList.contains('nav-item')) {
-          if (collapsed) { n.style.display = 'none'; }
+          if (collapsed && !q) { n.style.display = 'none'; }
           else {
             const txt = (n.textContent || '').replace(/[\s★]/g, '').toLowerCase();
             n.style.display = (!q || txt.indexOf(q) >= 0) ? '' : 'none';
@@ -5900,7 +5973,9 @@ function bindNavSearch() {
         }
         n = n.nextElementSibling;
       }
-      grp.style.display = (collapsed || any) ? '' : 'none';
+      grp.classList.toggle('collapsed', collapsed && !q);
+      grp.setAttribute('aria-expanded', String(!collapsed || !!q));
+      grp.style.display = (!q || any) ? '' : 'none';
     });
     const pb = $('#nav-pinned'); if (pb) pb.style.display = q ? 'none' : '';
   });
